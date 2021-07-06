@@ -1,0 +1,87 @@
+Design Patterns - 06/06/2021
+**strategy,chain of responsability,factory method, builder,observer,state**
+Material de apoio Alura
+Design Patterns em Java I: Introdução às boas práticas de programação
+-O que é um padrão de projeto:
+solução comum para um problema recorrente.
+Categorias do Design Patterns
+1. Criacionais
+2. Estruturais
+*3. Comportamentais*
+	- Strategy - Visa resolver a existência de diversos algoritmos para uma ação, resultando na possibilidade de vários ifs criando classes específicas para elas.
+	- Chain of Responsibility - Visa resolver algoritmos sequenciais.
+	- Template Method - Favorece o reaproveitamento de códigos comuns entre classes, evitando assim duplicações de códigos.
+	- State - Visa permitir que o objeto altere seu comportamento quando seu estado(situação) muda.
+	- Command -
+	- Observer
+
+Hands-on
+Implementando Strategy
+Objetivo: Criar um programa que faz o calculo de tributos do orcamento passando como parâmetro o valor do orçamento e o tipo de imposto
+Regra de negócio:
+1. Calcular 10% de imposto para ICMS
+2. Calcular 6% de imposto para ISS
+
+How To:
+Criar uma classe orcamento com o atributo valor.
+Criar a interface Impostos com a identificação do método calcular retornando BigDecimal (valor do desconto).
+Criar a classe ISS e ICMS implementando Impostos. Sobreescrever o método calcula com a lógica de calculo de cada um.
+Criar uma classe de CalculadoraDeImpostos com o método calcular recebendo o Orcamento e a interface Imposto.
+Criar uma classe CalculadoraDeImpostosTeste que cria uma nova CalculadoraDeImpostos passando o orcamento e o tipo de imposto para testar.
+----------------------------------------------------------------------------------------------------
+Implementando Chain of Responsibility
+Objetivo: Criar um programa que faz o calculo de descontos do orçamento.
+Regra de negócio:
+1. Se tiver mais de 05 produtos, conceder 5%
+2. Se tiver menos de 05 produtos e o valor for mais de R$ 500,00 conceder 1%
+
+How To:
+Adicionar a classe de orcamento o atributo qtde de Itens.
+Criar uma classe abstrata chamada Desconto com o atributo que guarda o proximoDesconto.
+Cria uma classe DescontoParaOrcamentosCommaisdeCincoItens extendendo a classe Desconto. Cria construtor exigido pela classe abstrata. Implementa o método calcular passando o orçamento. Caso quantidade de itens > 5 retorna desconto, se não,  chama-se o proximoDesconto para fazer o calculo.
+Cria uma classe DescontoParaOrcamentosComValorMaiorQueQuinhentos extendendo a classe Desconto. Cria construtor exigido pela classe abstrata. Implementa o método calcular passando o orçamento. Caso valor do orcamento>500 retorna desconto, se não,  chama-se o proximoDesconto para fazer o calculo.
+Cria classe SemDesconto extendendo da classe Desconto. Cria construtor exigido pela classe sem parametros e  retorna null (sem próxima classe de descontos).  Implementa o método calcular passando o orçamento retornando zero (sem desconto)
+Cria uma classe de CalculadoraDeDescontos com o método calcula recebendo o Orcamento e retorna a chamadas das classes de desconto em ordem de chamada passando como proximoDesconto a proxima classe a ser calculada. Finaliza-se chamando o SemDesconto.
+----------------------------------------------------------------------------------------------------
+Implementando Template Method
+Objetivo: Utilizar melhor a herança e trazer códigos parecidos das classes filhas para a classe mãe.
+
+How To:
+Na classe abstrata Desconto, criar método deveCalcular retornando um boolean.
+Criar um método concreto de calcular para vericar se deve calcular retornando o valor calculado ou o próximo calculo.
+Passar a lógica de ifs que verifica quando será aplicado o desconto para o método que agora é obrigatório ser implementado.
+----------------------------------------------------------------------------------------------------
+Implementando State
+Objetivo: criar no programa a funcionalidade de desconto extra que irá conceder uma porcentagem de desconto de acordo com a situação do orcamento e que siga um processo de situação. EmAnalise -> Aprovado -> Reprovado -> Finalizado
+Regra de negócio:
+01. Situação EmAnalise: concede um desconto extra de 5%.
+02. Situação Aprovado: concede um desconto extra de 2%.
+03. Situação Reprovado: não concede desconto.
+04. Situação Finalizado: não concede desconto.
+
+How To:
+Criar um atributo SituacaoOrcamento que será como padrão EmAnalise.
+Criar um package com a classe abstrata SituacaoOrcamento. Criar um método concreto calcularValorDeDescontoExtra retornando um BigDecimal como padrão zero. Criar os métodos concretos de aprovar, reprovar e finalizar retornando como padrão uma exceção, pois caso o método não seja implementado nas classes de situação, irá retornar um erro.
+Criar as classes de situações EmAnalise, Aprovado, Reprovado, Finalizado extendendo da classe abstrata SituacaoOrcamento. Implementar os métodos necessários para cada classe.
+----------------------------------------------------------------------------------------------------
+Implementar Command
+Objetivo: Criar a funcionalidade de gerar um pedido após a finalização do orçamento.
+Regra de negócio:
+O pedido terá como atributos a data, o nome do cliente e o orçamento aprovado. Deve-se salvar o pedido no banco de dados e enviar um e-mail notificando o novo pedido.
+
+How To:
+Criar uma classe de pedidos com os atributos nome, data e orçamento.
+Criar uma classe GeraPedido com os atributos que a aplicação deve receber (nomeCliente, valorOrcamento, quantidadeItens). Gerar o construtor que irá receber essas informações.
+Criar uma classe GeraPedidoHandler com um método que executa o comando recebendo como parâmetro a classe gera pedido. Aqui será chamado os comandos que serão executados.
+GeraPedido = classe de atributos do objeto.
+GeraPedidoHandler = classe de comandos.
+
+Criar uma classe TesteDePedidos com o método main simulando uma chamada GeraPedido passando os parâmetros. Chamar o método executa para gerar pedido.
+----------------------------------------------------------------------------------------------------
+Implementar Observer
+Objetivo: separar as ações de enviar e-mail e salvar no banco de dados em classes separadas para melhor coesão.
+
+
+
+
+
