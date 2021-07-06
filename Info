@@ -1,7 +1,11 @@
 Design Patterns - 06/06/2021
-**strategy,chain of responsability,factory method, builder,observer,state**
+**IMPORTANTES: strategy,chain of responsability,observer,state.
+Faltam: factory method, builder**
+
 Material de apoio Alura
 Design Patterns em Java I: Introdução às boas práticas de programação
+https://refactoring.guru/pt-br/design-patterns/
+
 -O que é um padrão de projeto:
 solução comum para um problema recorrente.
 Categorias do Design Patterns
@@ -12,8 +16,8 @@ Categorias do Design Patterns
 	- Chain of Responsibility - Visa resolver algoritmos sequenciais.
 	- Template Method - Favorece o reaproveitamento de códigos comuns entre classes, evitando assim duplicações de códigos.
 	- State - Visa permitir que o objeto altere seu comportamento quando seu estado(situação) muda.
-	- Command -
-	- Observer
+	- Command - Visa resolver duplicidade de códigos em chamadas de diferentes (console, api, sistemas..)
+	- Observer - Inversão de responsabilidade. Classes de ações escutam a classe que gerencia
 
 Hands-on
 Implementando Strategy
